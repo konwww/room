@@ -1,0 +1,17 @@
+{
+  "title":"StuSiteGuide--站点导航",
+  "description":"StuSiteGuide: 我们致力于导航服务,主要面向教育行业对象,例如学生,教师以及其它教育行业从业者. 本导航集成了大量的相关网站链接,您可以使用本站点作为跳板,访问其它网站。本站还提供资源搜索服务，使用本站的搜索引擎，您可以轻而易举的找到你想要的东西。",
+  "script":[
+    "jquery.min.js","",""
+  ],
+  "search":[
+    {"name":"百度搜索","address":"https://www.baidu.com/s?wd="},
+    {"name":"搜狗搜索","address":"https://www.sougou.com/s?wd="}
+  ],
+  "boardTitle":[
+    "校园网","教育网","常用站点"
+  ],
+  "style":[
+    "css.css"
+  ]
+}

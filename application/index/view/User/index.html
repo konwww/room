@@ -1,0 +1,283 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>Title</title>
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+
+    <link href="../css/layui.css" type="text/css" rel="stylesheet">
+    <link href="{$request->domain()}/static/layui/css/layui.css" type="text/css" rel="stylesheet">
+    <link href="{$request->domain()}/static/layui/css/style.css" type="text/css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <script src="{$request->domain()}/static/layui/layui.js"></script>
+    <style type="text/css">
+        @media screen and (min-width: 768px){
+
+        }
+    </style>
+</head>
+<body>
+<div class="layui-container">
+    <!--图片轮播开始-->
+    <div class="layui-row">
+        <div class="layui-col-xs12">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <div class="layui-carousel" id="test1">
+                        <div carousel-item>
+                            {volist name="config.carousel" id="li"}
+                            <div><a href="{$li.a_href}" target="_blank"><img
+                                    src="{$request->domain()}/img/{$li.img_url}"
+                                    class="layui-img carousel-img" width="100%" height="100%"></a>
+                            </div>
+                            {/volist}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-xs12">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    <div class="layui-breadcrumb">
+                        <a href="{:url('Index/emptyRoom',null,'.html',$request->domain())}">首页</a>
+                        <a href="#">个人中心 </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--图片轮播结束-->
+    <div class="layui-row">
+        <div class="layui-col-xs12 layui-col-sm12">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    我的信息
+                </div>
+            </div>
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <table class="layui-table" lay-skin="nob">
+                        <tbody>
+                        <tr>
+                            <th>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:</th>
+                            <td>{:session("username")}</td>
+                        </tr>
+                        <tr>
+                            <th>真实姓名:</th>
+                            <td>{:session("realname")}</td>
+                        </tr>
+                        <tr>
+                            <th>学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:</th>
+                            <td>{:session("code")}</td>
+                        </tr>
+                        <tr>
+                            <th>所属校区:</th>
+                            <td>{:session("area")}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-xs12">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    我的教室
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-xs12 layui-col-sm6">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    教室地址：十教A201
+                </div>
+                <div class="layui-card-body">
+                    <table class="layui-table" lay-skin="nob">
+                        <tbody>
+                        <tr>
+                            <th>申请时间</th>
+                            <td>2017-6-9</td>
+                        </tr>
+                        <tr>
+                            <th>失效时间</th>
+                            <td>2017-6-9</td>
+                        </tr>
+                        <tr>
+                            <th>组织名称</th>
+                            <td>信工院辩论队</td>
+                        </tr>
+                        <tr>
+                            <th>用途</th>
+                            <td>例行会议</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    教室地址：<span class="room-address">十教A203</span>
+                </div>
+
+                <div class="layui-card-body">
+                    <table class="layui-table" lay-skin="nob">
+                        <tbody>
+                        <tr>
+                            <th>申请时间</th>
+                            <td>2017-6-9</td>
+                        </tr>
+                        <tr>
+                            <th>失效时间</th>
+                            <td>2017-6-9</td>
+                        </tr>
+                        <tr>
+                            <th>组织名称</th>
+                            <td>信工院辩论队</td>
+                        </tr>
+                        <tr>
+                            <th>用途</th>
+                            <td>例行会议</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-xs12 layui-col-sm8">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    教室使用记录
+                </div>
+            </div>
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <ul class="layui-timeline">
+                        <li class="layui-timeline-item">
+                            <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                            <div class="layui-timeline-content layui-text">
+                                <strong>2018-9-1</strong>
+                                <table class="info">
+                                    <tbody>
+                                    <tr>
+                                        <th>时间编号：</th>
+                                        <td>123455</td>
+                                    </tr>
+                                    <tr>
+                                        <th>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址：</th>
+                                        <td>10教A101</td>
+                                    </tr>
+                                    <tr>
+                                        <th>校&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;区：</th>
+                                        <td>雅安校区</td>
+                                    </tr>
+                                    <tr>
+                                        <th>使用团体：</th>
+                                        <td>信息工程学院果宝特攻队</td>
+                                    </tr>
+                                    <tr>
+                                        <th>使用用途：</th>
+                                        <td>信息工程学院果宝特攻队内部会议</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </li>
+                        <li class="layui-timeline-item">
+                            <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                            <div class="layui-timeline-content layui-text">
+                                <strong>2018-9-1</strong>
+                                <table class="info">
+                                    <tbody>
+                                    <tr>
+                                        <th>时间编号：</th>
+                                        <td>12139</td>
+                                    </tr>
+                                    <tr>
+                                        <th>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址：</th>
+                                        <td>10教A101</td>
+                                    </tr>
+                                    <tr>
+                                        <th>校&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;区：</th>
+                                        <td>雅安校区</td>
+                                    </tr>
+                                    <tr>
+                                        <th>使用团体：</th>
+                                        <td>信息工程学院果宝特攻队</td>
+                                    </tr>
+                                    <tr>
+                                        <th>使用用途：</th>
+                                        <td>信息工程学院果宝特攻队内部会议</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="layui-hide-xs layui-col-sm4">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <div id="startDate"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#startDate'
+            ,position: 'static'
+        })
+    });
+    layui.use(["element", "carousel"], function () {
+        layui.carousel.render({
+            elem: '#test1'
+            , width: '100%' //设置容器宽度
+            , arrow: 'always' //始终显示箭头
+        })
+    });
+
+    function refreshTimeline(data) {
+//渲染时间线
+    }
+
+    function getHistory(date, endDate) {
+        $.ajax({
+            type: "POST",
+            url: "",
+            data: {
+                "startDate": date["year"] + "-" + date["month"] + "-" + date["day"],
+                "endDate": endDate["year"] + "-" + endDate["month"] + "-" + endDate["day"]
+            },
+            success: function (data) {
+                refreshTimeline(JSON.parse(data))
+            },
+            error: function (xhr) {
+                console.log(xhr.responseText)
+            },
+            complete: function () {
+
+            }
+        })
+    }
+</script>
+</body>
+</html>

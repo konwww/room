@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="../layui.css" type="text/css" rel="stylesheet">
+    <link href="http://test.local/static/layui/css/layui.css" type="text/css" rel="stylesheet">
+    <title>Title</title>
+    <script src="http://test.local/static/layui/layui.js"></script>
+    <script>
+        layui.use(["layer", "form", "element","carousel"], function () {
+            layer.open({
+                "title": "你好",
+                "content": "你好"
+            });
+            var element = layui.element;
+            var carousel=layui.carousel;
+            carousel.render({
+                elem:"#test1",
+                width:"100%",
+                height:"300px",
+                full:false,
+                autoplay:true
+            })
+        })
+    </script>
+</head>
+<body>
+<div class="layui-row">
+    <div class="layui-col-md12 layui-box">
+        <ul class="layui-nav layui-bg-green" lay-filter="">
+            <i class="layui-icon layui-icon-snowflake"></i>
+            <li class="layui-nav-item"><a href="">最新活动</a></li>
+            <li class="layui-nav-item"><a href="">产品</a></li>
+            <li class="layui-nav-item"><a href="">大数据</a></li>
+            <li class="layui-nav-item  layui-this">
+                <a href="javascript:;">解决方案</a>
+                <dl class="layui-nav-child"> <!-- 二级菜单 -->
+                    <dd><a href="">移动模块</a></dd>
+                    <dd><a href="">后台模版</a></dd>
+                    <dd><a href="">电商平台</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="">社区</a></li>
+        </ul>
+    </div>
+</div>
+<div class="layui-main">
+    <div class="layui-row">
+        <div class="layui-col-md12">
+            <div class="layui-carousel" id="test1">
+                <div carousel-item>
+                    <div>条目1</div>
+                    <div>条目2</div>
+                    <div>条目3</div>
+                    <div>条目4</div>
+                    <div>条目5</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-md12">
+                <table class="layui-table" lay-size="lg" lay-skin="line">
+                    <thead>
+                    <tr>
+                        <td>
+                            title
+                        </td>
+                        <td>
+                            title
+                        </td>
+                        <td>
+                            title
+                        </td>
+                        <td>
+                            title
+                        </td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            body
+                        </td>
+                        <td>
+                            body
+                        </td>
+                        <td>
+                            body
+                        </td>
+                        <td>
+                            body
+                        </td>
+                    </tr><tr>
+                        <td>
+                            body
+                        </td>
+                        <td>
+                            body
+                        </td>
+                        <td>
+                            body
+                        </td>
+                        <td>
+                            body
+                        </td>
+                    </tr><tr>
+                        <td>
+                            body
+                        </td>
+                        <td>
+                            body
+                        </td>
+                        <td>
+                            body
+                        </td>
+                        <td>
+                            body
+                        </td>
+                    </tr><tr>
+                        <td>
+                            body
+                        </td>
+                        <td>
+                            body
+                        </td>
+                        <td>
+                            body
+                        </td>
+                        <td>
+                            body
+                        </td>
+                    </tr><tr>
+                        <td>
+                            body
+                        </td>
+                        <td>
+                            body
+                        </td>
+                        <td>
+                            body
+                        </td>
+                        <td>
+                            body
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
