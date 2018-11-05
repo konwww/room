@@ -14,9 +14,10 @@ use think\Model;
 
 class Section extends Model
 {
+    protected $pk="uid";
     public $address;
     public $cid = null;
-    public $population;
+    public $size;
     public $category;
     public $area;
     public $weekNum;
@@ -29,6 +30,9 @@ class Section extends Model
      *
      * Section constructor.
      * @param array $attr
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function __construct($attr = [])
     {
