@@ -27,5 +27,9 @@ class SectionHistory extends Model
     protected $pk="id";
     protected $autoWriteTimestamp="datetime";
     protected $table="borrow_room";
+    public function __construct($data = [])
+    {
+        parent::__construct($data);
+    }
 
 }
