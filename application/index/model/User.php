@@ -14,16 +14,16 @@ use think\Model;
 class User extends Model
 {
     public $uid;
-    protected $pk = "uid";
-    protected $table = "user";
     public $username;
-    public $autoWriteTimestamp = "datetime";
     public $level = 1;
-    protected $availability;
     public $phone;
     public $email;
     public $code;//学号
     public $openid;
+    protected $availability;
+    protected $autoWriteTimestamp = "datetime";
+    protected $pk = "uid";
+    protected $table = "user";
 
     public function enable(){
         return $this->able(true);
