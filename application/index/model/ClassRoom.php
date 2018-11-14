@@ -46,9 +46,6 @@ class ClassRoom extends Model
     /**
      * @param $cid
      * @return bool
-     * @throws DataNotFoundException
-     * @throws ModelNotFoundException
-     * @throws DbException
      */
     public function checkBorrow($cid)
     {
@@ -90,11 +87,8 @@ class ClassRoom extends Model
      * @param $weekNum
      * @param $page
      * @return array
-     * @throws DataNotFoundException
-     * @throws ModelNotFoundException
-     * @throws DbException
      */
-    public function emptyRoom($area, $address, $week="all", $section="all", $weekNum, $page)
+    public function emptyRoom($area, $address, $week='all', $section='all', $weekNum, $page)
     {
         //构建查询条件
         $expression["area"] = $area;

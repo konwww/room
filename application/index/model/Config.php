@@ -13,7 +13,8 @@ use think\Cache;
 
 class Config
 {
-    static $count=0;
+    static $count = 0;
+
     /**
      * 设置配置信息
      * @param $key
@@ -35,31 +36,20 @@ class Config
      */
     static public function get($key)
     {
-        $para = self::keyDecode($key);
         $config_list = Cache::get("config_list");
         //如果配置项存在且可用性为true,则直接返回该value
-        if (!empty($config_list[$key]) && $config_list[$key]['enabled']===true) return $config_list[$key]["value"];
-        $config_model = new ConfigCache();
-        //如果缓存中该配置项为空,那么就查询数据库中配置项信息,并且更新缓存
-        $config = $config_model->where(["group" => $para[0], "key" => $para[1]])->find();
-        if (is_null($config)) {
-            return false;
-        } else {
-            self::updateCache();
-            return $config->getData("value");
-        }
+        if (!empty($config_list[$key]) && $config_list[$key]['enabled'] === 1) return $config_list[$key]["value"];
+        return false;
+    }
+    static public function all(){
+        $config_list=Cache::get("config_list");
+        return $config_list;
     }
 
     static public function has($key)
     {
         $result = Cache::get($key);
-        if (! empty($result) && $result[$key]["enabled"])return true;
-        //如果缓存中没有检测到key对应value,那就更新一次缓存
-        self::updateCache();
-        if (self::$count>=1)return ! empty($result) && $result[$key]["enabled"];
-        self::$count++;
-        $result=self::has($key);
-        return $result;
+        return !empty($result) && $result[$key]["enabled"] === 1;
     }
 
     /**
@@ -86,18 +76,22 @@ class Config
      */
     static protected function query($expression)
     {
-        $expression["enabled"]=true;
+        $expression["enabled"] = 1;
         return (new ConfigCache())->where($expression)->select();
     }
 
-    static public function disable()
+    static public function disable($key)
     {
-
+        $para = self::keyDecode($key);
+        ConfigCache::update(["enabled" => 0], ["group" => $para[0], "key" => $para[1]]);
+        self::updateCache();
     }
 
-    static public function enable()
+    static public function enable($key)
     {
-
+        $para = self::keyDecode($key);
+        ConfigCache::update(["enabled" => 1], ["group" => $para[0], "key" => $para[1]]);
+        self::updateCache();
     }
 
     static protected function keyDecode($key)

@@ -33,6 +33,6 @@ class ConfigCache extends Model
         array_walk($config_list, function ($value) use (&$result) {
             $result[$value['group'] . '.' . $value['key']] = ['value' => $value["value"], 'enabled' => $value["enabled"]];
         });
-        Cache::set('config_list', $result, 3600 * 24 * 7);
+        Cache::set('config_list', ksort($result), 3600 * 24 * 15);
     }
 }

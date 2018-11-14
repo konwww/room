@@ -24,7 +24,7 @@ class Index extends Controller
 
     public function index()
     {
-        //解决生成url时不生成index.php的情况
+
         $this->redirect(request()->domain() . "/index.php/index/index/emptyRoom");
     }
 
@@ -232,8 +232,4 @@ class Index extends Controller
 
     }
 
-    public function test()
-    {
-        dump(date_create());
-    }
 }
