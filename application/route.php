@@ -38,6 +38,9 @@ return [
         ]
         ,'room-info/:cid'=>[
             'index/Room/getRoomBaseInfo',["method"=>'get']
+        ],
+        '__miss__'=>[
+            'index/Room/index'
         ]
     ]
 
