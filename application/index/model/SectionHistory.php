@@ -32,4 +32,5 @@ class SectionHistory extends Model
         parent::__construct($data);
     }
 
+
 }

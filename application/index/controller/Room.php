@@ -10,6 +10,7 @@ namespace app\index\controller;
 
 
 use app\index\model\ClassRoom;
+use app\index\model\SectionHistory;
 use think\Controller;
 use think\Request;
 use think\Response;
@@ -25,9 +26,9 @@ class Room extends Controller
         parent::__construct($request);
     }
 
-    public function detail($cid, $weekNum)
+    public function getSectionInfo($cid, $week)
     {
-        $result = $this->classroom->getRoomInfo($cid, $weekNum, 0);
+        $result = $this->classroom->getRoomInfo($cid, $week, 0);
         $mon = [];
         $tues = [];
         $wed = [];
@@ -73,7 +74,7 @@ class Room extends Controller
 
     }
 
-    public function mark($cid, $week, $weekNum, $section, $date = null, $uid = null, $groupName = null, $purpose = null)
+    public function mark($cid, $week, $weekNum, $section, $date = null, $groupName = null, $purpose = null)
     {
         //教室借用
         $uid = Session::get("uid");
@@ -124,11 +125,24 @@ class Room extends Controller
         $dayDiff = $weekDiff * 7 - date("w") + (int)$week;
         return date("Y-m-d", strtotime("+" . $dayDiff . " days")) . " " . $time;
     }
+    public function getSectionHistory($cid,$page=1,$listRows=20){
+        $section=new SectionHistory();
+        $express["cid"]=$cid;
+        $result=$section->where(["cid"=>$cid])->order("usageTime","asc")->page($page,$listRows)->select();
+        return Response::create(["errorMsg"=>"","replyContent"=>$result],"JSON",200);
+    }
 
     public function readRoomList($week = null, $section = null, $address = null, $area = "雅安", $page = 1, $weekNum = null)
     {
         //todo 输入校验
         $result = $this->classroom->emptyRoom($area, $address, $week, $section, $weekNum, $page);
         return Response::create(["errorMsg" => "", "replyContent" => ["data" => $result[0], "total" => $result[1]]], "JSON", 200);
+    }
+    public function getRoomBaseInfo($cid){
+        $section=\app\index\model\Section::get($cid);
+        if (is_null($section)){
+            return Response::create(["errorMsg"=>"没有找到这个section","replyContent"=>""],"JSON",404);
+        }
+        return Response::create(["errorMsg"=>"","replyContent"=>$section->getData()],"JSON");
     }
 }

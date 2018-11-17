@@ -14,6 +14,7 @@ use think\Db;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\ModelNotFoundException;
 use think\exception\DbException;
+use think\File;
 use think\Model;
 
 class ClassRoom extends Model
@@ -46,6 +47,9 @@ class ClassRoom extends Model
     /**
      * @param $cid
      * @return bool
+     * @throws DataNotFoundException
+     * @throws ModelNotFoundException
+     * @throws DbException
      */
     public function checkBorrow($cid)
     {
@@ -79,7 +83,7 @@ class ClassRoom extends Model
     }
 
     /**
-     * todo 无课时间段查询
+     * @todo 无课时间段查询 修复参数bug 不能直接修改参数位置,会导致sql语句构建出错
      * @param $area
      * @param $address
      * @param string $week
@@ -87,8 +91,11 @@ class ClassRoom extends Model
      * @param $weekNum
      * @param $page
      * @return array
+     * @throws DataNotFoundException
+     * @throws ModelNotFoundException
+     * @throws DbException
      */
-    public function emptyRoom($area, $address, $week='all', $section='all', $weekNum, $page)
+    public function emptyRoom($area, $address, $week="all", $section="all", $weekNum, $page)
     {
         //构建查询条件
         $expression["area"] = $area;
