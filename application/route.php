@@ -43,13 +43,17 @@ return [
             'index/Room/index'
         ]
     ]
-    , 'old' => [
-        '[index]' => [
+    , '[old]' => [
+        'index' => [
          'index/index/index'
         ]
-        ,'[detail]'=>[
+        ,'detail'=>[
             'index/index/detail'
         ]
+    ]
+    ,'[oauth]'=>[
+        'index'=>["index/Oauth/index"]
+        ,'login'=>["index/Oauth/login"]
     ]
     , '__miss__' => "index/Room/index"
 
