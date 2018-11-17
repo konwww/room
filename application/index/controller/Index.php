@@ -88,7 +88,7 @@ class Index extends Controller
             $this->assign("emptyTime", $emptyTime);
             $this->assign("weekNum",$this->classroom->isOdd()[1]);
             $this->assign("config", $website);
-            return $this->fetch("Index/detail");
+            return $this->fetch("Old/detail");
         }
     }
 
@@ -227,7 +227,7 @@ class Index extends Controller
             $this->assign("request", request());
             $this->assign("data", $result[0]);
             $this->assign("total", $result[1]);
-            return $this->fetch("Index/emptyRoom");
+            return $this->fetch("Old/emptyRoom");
         }
 
     }

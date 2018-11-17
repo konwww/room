@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{$config.title}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link href="{$request->domain()}/static/layui/css/layui.css" type="text/css" rel="stylesheet">
+    <link href="{$request->domain()}/static/layui/css/style.css" type="text/css" rel="stylesheet">
+    <style>
+        @media screen and (max-width: 768px){
+            .filter .layui-input-inline{
+                margin-left: 0 ;
+            }
+        }
+    </style>
+</head>
+<body>
+<!--主体部分开始-->
+<div class="layui-container">
+    <!--图片轮播开始-->
+    <div class="layui-row">
+        <div class="layui-col-xs12">
+            <div class="layui-card header">
+                <div class="layui-card-body">
+                    <div class="layui-carousel" id="test1">
+                        <div carousel-item>
+                            {volist name="config.carousel" id="li"}
+                            <div><a href="{$li.a_href}" target="_blank"><img
+                                    src="{$request->domain()}/img/{$li.img_url}"
+                                    class="layui-img carousel-img" width="100%" height="100%"></a>
+                            </div>
+                            {/volist}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--图片轮播结束-->
+    <div class="layui-row">
+        <div class="layui-col-xs12">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    <table class="user-panel">
+                        <tbody>
+                        <tr>
+                            <th>
+                                姓名:
+                            </th>
+                            <td>
+                                <span id="uername" class="link">{:session('realname')}<a
+                                        href="{:url('User/index',['uid'=>session('uid')],'.html')}"
+                                        target="_blank">个人中心</a>            </span>
+                            </td>
+                            <th>学号:</th>
+                            <td>{:session("code")}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-xs12">
+            <fieldset class="layui-elem-field">
+                <legend>温馨提示:</legend>
+                <div class="layui-field-box">
+                    为了保证信息的完整性,请在移动设备上使用横屏方式浏览本页面
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <!--筛选区开始-->
+    <div class="layui-row">
+        <div class="layui-col-xs12">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <form class="layui-form filter" name="filter">
+                        <div class="layui-hide">
+                            <input type="hidden" value="{$total}" id="total">
+                            <input type="hidden" value="1" id="page">
+                        </div>
+                        <label class="layui-form-label layui-hide-xs"></label>
+                        <!--空label用于美化-->
+                        <div class="layui-form-item">
+                            <div class="layui-input-inline">
+                            </div>
+                            <div class="layui-input-inline">
+                                <input type="text" id="address" placeholder="address" class="layui-input">
+                            </div>
+                            <div class="layui-input-inline">
+                                <select lay-filter="area" class=" layui-select" id="area">
+                                    <option selected value="雅安">雅安</option>
+                                    <option value="都江堰">都江堰</option>
+                                    <option value="成都">成都</option>
+                                </select>
+                            </div>
+                            <div class="layui-input-inline ">
+                                <select class="layui-select" lay-filter="week" id="week">
+                                    <option value="all" selected>整个周</option>
+                                    <option value="1">星期一</option>
+                                    <option value="2">星期二</option>
+                                    <option value="3">星期三</option>
+                                    <option value="4">星期四</option>
+                                    <option value="5">星期五</option>
+                                    <option value="6">星期六</option>
+                                    <option value="7">星期日</option>
+                                </select>
+                            </div>
+                            <div class="layui-input-inline">
+                                <select lay-filter="section" class="layui-select" size="1" id="section" lay-search>
+                                    <option value="all" selected>整天</option>
+                                    <option value="1">第一、二节</option>
+                                    <option value="2">第三、四节</option>
+                                    <option value="3">第五、六节</option>
+                                    <option value="4">第七、八节</option>
+                                    <option value="5">第九、十节</option>
+                                    <option value="6">午饭&午休时间</option>
+                                    <option value="7">晚饭时间</option>
+                                    <option value="8">晚课下课时间</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--筛选区结束-->
+    <!--数据表格开始-->
+    <div class="layui-row">
+        <div class="layui-col-xs12">
+            <table class="layui-table" lay-size="sm" lay-skin=" line" name="data" style="text-align: center">
+                <!--表格头开始-->
+                <thead>
+                <tr>
+                    <td class="layui-hide-xs">
+                        时间编号
+                    </td>
+                    <td class="layui-hide-xs">
+                        教室种类
+                    </td>
+                    <td class="layui-hide-xs">
+                        上课周
+                    </td>
+                    <td class="layui-hide-xs layui-hide-sm">
+                        教室容纳人数
+                    </td>
+                    <td>
+                        教室位置
+                    </td>
+                    <td>
+                        校区
+                    </td>
+                    <td>
+                        上课时间
+                    </td>
+                    <td>
+                        操作
+                    </td>
+                </tr>
+                </thead>
+                <!--表格头结束-->
+                <!--表格主体开始-->
+                <tbody id="rows">
+                {volist name="data" id="cell"}
+                <tr data-value="{$cell.cid}">
+                    <td class="layui-hide-xs">
+                        {$cell.cid}
+                    </td>
+                    <td class="layui-hide-xs">
+                        {$cell.category}
+                    </td>
+                    <td class="layui-hide-xs">
+                        {$cell.weekNum}
+                    </td>
+                    <td class="layui-hide-xs layui-hide-sm">
+                        {$cell.population}
+                    </td>
+                    <td>
+                        {$cell.address}
+                    </td>
+                    <td>
+                        {$cell.area}
+                    </td>
+                    <td>
+                        周{$cell.week} 第
+                        {$cell.section}课
+                    </td>
+                    <td>
+                        <div class="layui-btn-group">
+                            <a href="javascript:borrow('{$cell.cid}','{$cell.week}','{$cell.section}','{$cell.weekNum}');" data-cid="{$cell.cid}" data-week="{$cell.week}" data-time="{$cell.section}"
+                                class="layui-btn layui-btn-normal layui-btn-xs">
+                                借用
+                            </a>
+                            <a href="{:url('Index/detail',['cid'=>$cell.cid,'weekNum'=>$cell.weekNum],'html',$request->domain())}"
+                               class="layui-btn layui-btn-normal layui-btn-xs">
+                                查询教室信息
+                            </a>
+                        </div>
+
+                    </td>
+                </tr>
+                {/volist}
+                </tbody>
+                <!--表格主体结束-->
+            </table>
+        </div>
+    </div>
+    <!--数据表格结束-->
+    <!--分页开始-->
+    <div class="layui-row">
+        <div class="layui-col-xs12">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <div id="md-page">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--分页结束-->
+    <div class="layui-row">
+        <div class="layui-col-md12">
+            <fieldset class="layui-elem-field layui-field-title ">
+                <legend><b><span
+                        style="display: inline-block;font-size: x-large;transform: rotate(30deg);-webkit-transform: rotate(30deg);color: #01AAED;">越</span><span
+                        style="font-size: x-small;">努</span><span style="font-size: larger"> 力</span>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                        style="font-size: medium">越</span><span style="font-size: xx-large">幸</span>运</b></legend>
+                <div class="layui-field-box" style="text-align: center">
+                    <b> 四川农业大学 信息化校园平台 教室借用系统 </b>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</div>
+<form class="layui-form layui-form-pane" id="borrow" style="visibility: hidden;margin: 30px">
+    <div class="layui-form-item">
+        <label class="layui-form-label" for="cid">
+            时间编号:
+        </label>
+        <div class="layui-input-block">
+            <input class="layui-input" type="text" disabled id="cid" value="" name="cid">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" for="time">
+            使用时间:
+        </label>
+        <div class="layui-input-block">
+            <input class="layui-input" type="text" disabled id="time" value="">
+            <input class="layui-input" type="hidden" name="week"  value="">
+            <input class="layui-input" type="hidden" name="weekNum" value="">
+            <input class="layui-input" type="hidden" name="section" value="">
+            <input class="layui-input" type="hidden" name="url" value="{:url('Index/borrow',[],'.html',$request->domain())}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" for="purpose">
+            用途
+        </label>
+        <div class="layui-input-block">
+            <input class="layui-input" type="text" id="purpose" name="purpose">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" for="group">
+            借用组织
+        </label>
+        <div class="layui-input-block">
+            <input class="layui-input" type="text" id="group" name="groupName">
+        </div>
+    </div>
+    <button class="layui-btn" style="width: 100%" type="button" id="submit_borrow">借用</button>
+</form>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<script src="{$request->domain()}/static/layui/layui.js"></script>
+<script src="{$request->domain()}/static/layui/borrow.js"></script>
+<script>
+
+</script>
+<script>
+    layui.use(["layer", "form", "element", "carousel", "laypage", "form", "jquery"], function () {
+        var $ = layui.jquery;
+        var carousel = layui.carousel;
+
+        //数据渲染
+        function dataRender(dataContent) {
+            for (var i = 0; i < dataContent.length; i++) {
+                $("tbody#rows").append(
+                    "<tr><td class=\"layui-hide-xs\">"
+                    + dataContent[i]["cid"] +
+                    "</td><td class=\"layui-hide-xs\">"
+                    + dataContent[i]["category"] +
+                    "</td><td class=\"layui-hide-xs \">"
+                    + dataContent[i]["weekNum"] +
+                    "</td><td class=\"layui-hide-xs layui-hide-sm\">"
+                    + dataContent[i]["population"] +
+                    "</td><td>"
+                    + dataContent[i]["address"] +
+                    "</td><td>"
+                    + dataContent[i]["area"] +
+                    "</td><td>星期"
+                    + dataContent[i]["week"] + "第" + dataContent[i]["section"] +
+                    "节课</td><td>" + "<div class='layui-btn-group'>" +
+                    "<a class='layui-btn layui-btn-normal layui-btn-xs' href='javascript:borrow(\""
+                    + dataContent[i]["cid"] +"\",\""+dataContent[i]["week"]+"\",\""+dataContent[i]["section"]+"\",\""+dataContent[i]['weekNum']+"\");"+
+                    "'>借用</a>" +
+                    "<a class='layui-btn layui-btn-normal layui-btn-xs' href='{:url('Index/detail',null,'.html',$request->domain())}?cid="
+                    + dataContent[i]['cid'] +"&weekNum="+dataContent[i]["weekNum"]+
+                    "'>查询教室信息</a></div></td></tr>"
+                )
+            }
+
+        }
+
+        //ajax获取数据
+        function getData(dataForReq) {
+            var url = "{:url('Index/emptyRoom',null,'.html',$request->domain())}";
+            console.log(dataForReq);
+            $.ajax({
+                url: url,
+                async: true,
+                dataType: "json",
+                data: dataForReq,
+                type: "POST",
+                beforeSend: function () {
+                    layer.load(2, {
+                        time: 5 * 1000
+                    });
+                    console.log("ajax请求开始");
+                },
+                success: function (data) {
+                    //清空原有表格内容
+                    $("tbody#rows").empty();
+                    data = JSON.parse(data);
+                    var dataContent = data["Data"][0];
+                    //存放更新后的数据总量和当前页码
+                    $("input#total").val(data["Data"][1]);
+                    $("input#page").val(dataForReq["page"]);
+                    //获取到数据后重载分页按钮
+                    getPage();
+                    //渲染数据
+                    dataRender(dataContent);
+                },
+                complete: function (xhr) {
+                    layer.close(layer.index);
+                    console.log("ajax请求完成", xhr.status)
+                },
+                error: function () {
+                    layer.open({
+                        title: "错误",
+                        content: "数据获取失败"
+                    })
+                }
+            })
+        }
+
+        //渲染分页数据
+        function getPage() {
+            layui.laypage.render({
+                elem: "md-page",
+                count: $("input#total").val(),
+                limit: 30,
+                groups: 1,
+                curr: $("input#page").val(),
+                layout: ["count", "prev","next"],
+                jump: function (curr, first) {
+                    if (!first) {
+                        dataForReq["page"] = curr["curr"];
+                        getData(dataForReq);
+                        curr["count"] = $("input#total").val();
+                    }
+                }
+            });
+        }
+
+        //筛选区change事件监控
+        var dataForReq = {};
+        //默认获取第一页数据
+        dataForReq["page"] = 1;
+        /* **********筛选区域事件监听**************** */
+        $("#address").keyup(
+            function () {
+                dataForReq["address"] = $(this).val();
+                getData(dataForReq);
+                getPage();
+            }
+        );
+        layui.form.on('select(area)', function (data) {
+            dataForReq["area"] = data.value;
+            getData(dataForReq);
+            getPage();
+        });
+        layui.form.on('select(week)', function (data) {
+            dataForReq["week"] = data.value;
+            getData(dataForReq);
+            getPage();
+        });
+        layui.form.on('select(section)', function (data) {
+            dataForReq["section"] = data.value;
+            getData(dataForReq);
+            getPage();
+        });
+
+
+        /*****************************/
+        //图片轮播实现
+        carousel.render({
+            elem: "#test1",
+            width: "100%",
+            height: "300px",
+            full: false,
+            autoplay: true
+        });
+        //页面初始载入时渲染分页
+        getPage();
+    });
+
+</script>
+<script>
+    function borrow(cid,week,time,weekNum) {
+        setCurrData(cid,week,time,weekNum);
+        openBorrowWindow();
+    }
+    $(function () {
+        var data={};
+        $("#submit_borrow").on("click",function () {
+            data["cid"]=$("#cid").val();
+            data["purpose"]=$("#purpose").val();
+            data["week"]=$("input[name=week]").val();
+            data["weekNum"]=$("input[name=weekNum]").val();
+            data["section"]=$("input[name=section]").val();
+            var url=$("input[name=url]").val();
+            sendData(data,url);
+        })
+    })
+</script>
+
+</body>
+</html>

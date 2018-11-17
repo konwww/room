@@ -20,7 +20,7 @@ class User extends Model
     public $email;
     public $code;//学号
     public $openid;
-    protected $availability;
+    protected $availability=1;
     protected $autoWriteTimestamp = "datetime";
     protected $pk = "uid";
     protected $table = "user";

@@ -18,18 +18,36 @@ use think\Session;
 
 class Oauth extends Controller
 {
+    public function index(){
+        $url=Config::get('Oauth.target_url');
+        $this->redirect($url);
+    }
     public function login($accessToken, $openid, $timestamp, $signature)
     {
         $uid = Session::get("uid");
         $oauth_url = Config::get("Oauth.target_url");
         $redirect_url = Config::get("Oauth.redirect_url");
         if (empty($uid)) $this->redirect($oauth_url, ["redirectUri" => $redirect_url]);
-        $this->getUserInfo($accessToken, $openid);
+        $oauth_user_info = $this->getUserInfo($accessToken, $openid);
+        //如果oauth信息获取失败
+        if (!$oauth_user_info) $this->error("登陆失败", "http://" . $this->request->domain());
+        $user = new User();
+        $user = $user->where(["openid" => $openid])->find();
+        if (is_null($user)) {
+            $this->reg($oauth_user_info);
+        };
+        $user_data = $user->getData();
+        $this->setSession($user_data);
+        $this->success("登陆成功", "http://" . $this->request->domain());
     }
 
+    /**
+     * @param $data
+     * @return User
+     */
     protected function reg($data)
     {
-
+        return User::create(["openid" => $data["openid"], "username" => $data["username"], "level" => 1, "code" => $data["code"], "phone" => $data["phone"], "email" => $data["email"]]);
     }
 
     /**
@@ -43,7 +61,7 @@ class Oauth extends Controller
         $data = ["accessToken" => $accessToken, "openid" => $openid, "appid" => $appid];
         $data["signature"] = $this->sign($data);
         $oauth_user_info = Config::get("Oauth.user_info_url");
-        HttpRequest::create($oauth_user_info, $data, "GET");
+        HttpRequest::create($oauth_user_info, $data, "POST");
         HttpRequest::exec();
         HttpRequest::error();
         if (empty(HttpRequest::$error)) {
@@ -57,7 +75,7 @@ class Oauth extends Controller
 
     private function sign($data)
     {
-        $data["secret"] = Config::get("Oauth.send_secret");
+        $data["secret"] = Config::get("Oauth.issue_secret");
         ksort($data);
         $data_json = json_encode($data);
         return sha1($data_json);
@@ -65,19 +83,13 @@ class Oauth extends Controller
 
     /**
      * 设置session
-     * @param $openid
+     * @param $data
      * @return bool
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
      */
-    private function setSession($openid)
+    private function setSession($data)
     {
-        $user = new User();
-        $user = $user->where(["openid" => $openid])->find();
-        $user_data = $user->getData();
         array_walk($user_data, function ($value, $key) {
-            Session::set($key,$value);
+            Session::set($key, $value);
         });
         return true;
     }

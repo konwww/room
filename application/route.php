@@ -19,30 +19,38 @@ return [
     ],
     '[index]' => [
         'index' => [
-            "index/Room/index",["method"=>"get"]
+            "index/Room/index", ["method" => "get"]
         ]
         , 'mark' => [
-            "index/Room/mark",["method"=>"put"]
+            "index/Room/mark", ["method" => "put"]
         ]
         , "detail/:cid" => [
-            'index/Room/detail',["method"=>"get"]
+            'index/Room/detail', ["method" => "get"]
         ]
         , 'room-list' => [
-            'index/Room/readRoomList',['method'=>'get']
+            'index/Room/readRoomList', ['method' => 'get']
         ]
         , 'history/:cid' => [
-            'index/Room/getSectionHistory', ['method'=>"get"]
+            'index/Room/getSectionHistory', ['method' => "get"]
         ]
         , 'section-info/:cid' => [
-            'index/Room/getSectionInfo',["method"=>"get"]
+            'index/Room/getSectionInfo', ["method" => "get"]
         ]
-        ,'room-info/:cid'=>[
-            'index/Room/getRoomBaseInfo',["method"=>'get']
+        , 'room-info/:cid' => [
+            'index/Room/getRoomBaseInfo', ["method" => 'get']
         ],
-        '__miss__'=>[
+        '__miss__' => [
             'index/Room/index'
         ]
     ]
-    ,'__miss__'=>"index/Room/index"
+    , 'old' => [
+        '[index]' => [
+         'index/index/index'
+        ]
+        ,'[detail]'=>[
+            'index/index/detail'
+        ]
+    ]
+    , '__miss__' => "index/Room/index"
 
 ];

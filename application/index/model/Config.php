@@ -14,7 +14,8 @@ use think\Cache;
 class Config
 {
     static $count = 0;
-
+    //是否启用缓存
+    static $cache=true;
     /**
      * 设置配置信息
      * @param $key

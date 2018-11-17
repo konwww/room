@@ -26,7 +26,7 @@ class Room extends Controller
         parent::__construct($request);
     }
     public function detail($cid){
-        $this->fetch("Index/detail");
+        return $this->fetch("Index/detail");
     }
 
     public function getSectionInfo($cid, $week)
@@ -74,7 +74,7 @@ class Room extends Controller
 
     public function index()
     {
-        $this->fetch("Index/index");
+       return $this->fetch("Index/index");
     }
 
     public function mark($cid, $week, $weekNum, $section, $date = null, $groupName = null, $purpose = null)
