@@ -45,7 +45,7 @@ return [
     ]
     , '[old]' => [
         'index' => [
-         'index/index/index'
+         'index/index/emptyRoom'
         ]
         ,'detail'=>[
             'index/index/detail'
