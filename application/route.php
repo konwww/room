@@ -43,5 +43,6 @@ return [
             'index/Room/index'
         ]
     ]
+    ,'__miss__'=>"index/Room/index"
 
 ];

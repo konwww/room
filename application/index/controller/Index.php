@@ -25,7 +25,7 @@ class Index extends Controller
     public function index()
     {
 
-        $this->redirect(request()->domain() . "/index.php/index/index/emptyRoom");
+        $this->redirect(request()->domain() . "/index/index");
     }
 
     public function detail($cid,$weekNum)
