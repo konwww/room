@@ -24,7 +24,9 @@
         "topthink/think-queue": "1.*",
         "topthink/think-migration": "1.*",
         "topthink/think-oracle": "1.*",
-      "ext-json": "*"
+      "ext-json": "*",
+      "ext-pdo": "*",
+      "ext-curl": "*"
     },
     "autoload": {
         "psr-4": {

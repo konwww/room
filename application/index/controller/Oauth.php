@@ -39,8 +39,8 @@ class Oauth extends Controller
      */
     private function getUserInfo($accessToken, $openid)
     {
-        $appid=Config::get("Oauth.appid");
-        $data = ["accessToken" => $accessToken, "openid" => $openid,"appid"=>$appid];
+        $appid = Config::get("Oauth.appid");
+        $data = ["accessToken" => $accessToken, "openid" => $openid, "appid" => $appid];
         $data["signature"] = $this->sign($data);
         $oauth_user_info = Config::get("Oauth.user_info_url");
         HttpRequest::create($oauth_user_info, $data, "GET");
@@ -63,13 +63,23 @@ class Oauth extends Controller
         return sha1($data_json);
     }
 
+    /**
+     * 设置session
+     * @param $openid
+     * @return bool
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     private function setSession($openid)
     {
-        $user=new User();
-        $user=$user->where(["openid"=>$openid])->find();
-        $user_data=$user->getData();
-        Session::set("");
-
+        $user = new User();
+        $user = $user->where(["openid" => $openid])->find();
+        $user_data = $user->getData();
+        array_walk($user_data, function ($value, $key) {
+            Session::set($key,$value);
+        });
+        return true;
     }
 
 }
