@@ -13,13 +13,32 @@ return [
     '__pattern__' => [
         'name' => '\w+',
     ],
-    '__alias__'=>[
-        'admin'=>'index/Admin',
-        'user'=>"index/User"
+    '__alias__' => [
+        'admin' => 'index/Admin',
+        'user' => "index/User"
     ],
-    '[hello]'     => [
-        ':id'   => ['index/hello', ['method' => 'get'], ['id' => '\d+']],
-        ':name' => ['index/hello', ['method' => 'post']],
-    ],
+    '[index]' => [
+        'index' => [
+            "index/Room/index",["method"=>"get"]
+        ]
+        , 'mark' => [
+            "index/Room/mark",["method"=>"put"]
+        ]
+        , "detail/:cid" => [
+            'index/Room/detail',["method"=>"get"]
+        ]
+        , 'room-list' => [
+            'index/Room/readRoomList',['method'=>'get']
+        ]
+        , 'history/:cid' => [
+            'index/Room/getSectionHistory', ['method'=>"get"]
+        ]
+        , 'section-info/:cid' => [
+            'index/Room/getSectionInfo',["method"=>"get"]
+        ]
+        ,'room-info/:cid'=>[
+            'index/Room/getRoomBaseInfo',["method"=>'get']
+        ]
+    ]
 
 ];
