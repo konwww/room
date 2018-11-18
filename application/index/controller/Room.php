@@ -28,6 +28,7 @@ class Room extends Controller
 
     public function detail($cid)
     {
+        $this->assign("request",$this->request);
         return $this->fetch("Index/detail");
     }
 

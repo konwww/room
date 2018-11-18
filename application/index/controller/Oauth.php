@@ -21,14 +21,14 @@ class Oauth extends Controller
     public function index(){
         $url=Config::get('Oauth.target_url');
         $redirect_url=Config::get('Oauth.redirect_url');
-        $this->redirect($url."?redirectUri={$redirect_url}");
+        $this->redirect($url."?redirect_uri={$redirect_url}");
     }
     public function login($access_token="", $openid="", $timestamp="", $signature="")
     {
         $uid = Session::get("uid");
         $oauth_url = Config::get("Oauth.target_url");
         $redirect_url = Config::get("Oauth.redirect_url");
-        if (empty($uid)) $this->redirect($oauth_url, ["redirectUri" => $redirect_url]);
+        if (empty($uid)) $this->redirect($oauth_url, ["redirect_uri" => $redirect_url]);
         $oauth_user_info = $this->getUserInfo($access_token, $openid);
         //如果oauth信息获取失败
         if (!$oauth_user_info) $this->error("登陆失败", "http://" . $this->request->domain());
