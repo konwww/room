@@ -45,15 +45,21 @@ return [
     ]
     , '[old]' => [
         'index' => [
-         'index/index/emptyRoom'
+            'index/index/emptyRoom'
         ]
-        ,'detail'=>[
+        , 'detail' => [
             'index/index/detail'
         ]
     ]
-    ,'[oauth]'=>[
-        'index'=>["index/Oauth/index"]
-        ,'login'=>["index/Oauth/login"]
+    , '[oauth]' => [
+        'index' => ["index/Oauth/index"]
+        , 'login' => ["index/Oauth/login"]
+    ]
+    , '[admin]' => [
+        'config' => ["index/Config/read"]
+    ]
+    ,'[test]'=>[
+        'index'=>["index/Test/index"]
     ]
     , '__miss__' => "index/Room/index"
 

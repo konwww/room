@@ -20,15 +20,16 @@ class Oauth extends Controller
 {
     public function index(){
         $url=Config::get('Oauth.target_url');
-        $this->redirect($url);
+        $redirect_url=Config::get('Oauth.redirect_url');
+        $this->redirect($url."?redirectUri={$redirect_url}");
     }
-    public function login($accessToken, $openid, $timestamp, $signature)
+    public function login($access_token="", $openid="", $timestamp="", $signature="")
     {
         $uid = Session::get("uid");
         $oauth_url = Config::get("Oauth.target_url");
         $redirect_url = Config::get("Oauth.redirect_url");
         if (empty($uid)) $this->redirect($oauth_url, ["redirectUri" => $redirect_url]);
-        $oauth_user_info = $this->getUserInfo($accessToken, $openid);
+        $oauth_user_info = $this->getUserInfo($access_token, $openid);
         //如果oauth信息获取失败
         if (!$oauth_user_info) $this->error("登陆失败", "http://" . $this->request->domain());
         $user = new User();
@@ -61,7 +62,8 @@ class Oauth extends Controller
         $data = ["accessToken" => $accessToken, "openid" => $openid, "appid" => $appid];
         $data["signature"] = $this->sign($data);
         $oauth_user_info = Config::get("Oauth.user_info_url");
-        HttpRequest::create($oauth_user_info, $data, "POST");
+        $headers=["Referer"=>"http://room.test.ga"];
+        HttpRequest::create($oauth_user_info, $data, "POST",$headers);
         HttpRequest::exec();
         HttpRequest::error();
         if (empty(HttpRequest::$error)) {
@@ -88,7 +90,7 @@ class Oauth extends Controller
      */
     private function setSession($data)
     {
-        array_walk($user_data, function ($value, $key) {
+        array_walk($data, function ($value, $key) {
             Session::set($key, $value);
         });
         return true;

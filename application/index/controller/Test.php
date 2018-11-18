@@ -15,12 +15,15 @@ use think\Response;
 
 class Test extends Controller
 {
-    function userTest()
+    function index()
     {
 //        $result = Config::set(2, "345");
 //        $result = Config::updateCache();
-        $result=Cache::get("config_list");
-        return Response::create($result, "JSON");
+        \app\index\model\Config::updateCache();
+//        $list=Cache::get("config_list");
+//        dump($list);
+        $result=\app\index\model\Config::get("Oauth.target_url");
+        dump($result);
     }
 
 }
