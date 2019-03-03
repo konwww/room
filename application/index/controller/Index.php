@@ -12,7 +12,7 @@ use think\Config;
 use think\Controller;
 use think\Session;
 
-class Index extends Controller
+class Index extends Visitor
 {
     protected $classroom;
 

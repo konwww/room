@@ -22,6 +22,8 @@ class User extends Model
     public $openid;
     protected $availability=1;
     protected $autoWriteTimestamp = "datetime";
+    protected $createTime="createTime";
+    protected $updateTime="updateTime";
     protected $pk = "uid";
     protected $table = "user";
 

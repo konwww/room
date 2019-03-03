@@ -11,23 +11,23 @@ namespace app\index\controller;
 
 use think\Config;
 use think\Controller;
+use think\Request;
 use think\Session;
 use think\Url;
 
-class Admin extends Controller
+class Admin extends Visitor
 {
+    public function __construct(Request $request = null)
+    {
+        parent::__construct($request);
+        $this->assign("request", request());
+    }
+
     /**
      *
      */
     public function index()
     {
-        Url::root("/index.php");
-        //用户信息验证
-        $conf=Config::get("website_base_conf");
-        $result=Session::get("level");
-        if (!$result>0){
-            $this->redirect($conf["login_req_url"]."?from=".\url("User/login",[],".html",request()->domain()));
-        }
         //渲染用户界面
         $this->assign("config", [
             "title" => "后台管理"
@@ -65,6 +65,7 @@ class Admin extends Controller
     {
         return $this->fetch("Admin/site-setting");
     }
+
 //user 管理
     public function userAdd()
     {
@@ -74,18 +75,20 @@ class Admin extends Controller
 
     public function userList()
     {
-        $this->assign("request", request());
         return $this->fetch("Admin/member-list");
     }
+
 //section 管理
-    public function sectionList(){
-        $this->assign("request", request());
+    public function sectionList()
+    {
         return $this->fetch("Admin/section-list");
     }
-    public function sectionUpdateHandle(){
+
+    public function borrowHistory()
+    {
+        return $this->fetch("Admin/borrow-history");
 
     }
-
 
 
 }

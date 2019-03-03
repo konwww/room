@@ -8,9 +8,6 @@
 <body>
 
 <table id="table" lay-filter="section-info"></table>
-<div id="iframe_cache" class="layui-hide">
-
-</div>
 <script type="text/html" id="toolbar">
     <a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="query" id="detail">查看</a>
     <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="toggle" id="toggle">toggle</a>
@@ -21,26 +18,31 @@
         var table = layui.table;
         var layer = layui.layer;
         var $ = layui.$;
-
-        //第一个实例
+        let expression = {};
+        if (self !== top) {
+            var uid = $("#iframe_cache input[name=uid]", window.parent.document).val();
+            expression = {uid: uid};
+            console.log(expression)
+        }
         table.render({
             elem: '#table'
             , height: 512
             , loading: true
-            , url: '/index.php/user/read' //数据接口
+            , where: expression
+            , url: '/index.php/section/log' //数据接口
             , page: true //开启分页
+            , response: {
+                statusCode: 200
+            }
             , cols: [[ //表头
-                {field: 'uid', title: 'ID', width: 80, sort: true, fixed: 'left'}
-                , {field: 'username', title: '用户名称', fixed: 'left', sort: true}
-                , {field: 'level', title: '权限等级',}
-                , {field: 'createTime', title: '账户创建时间',}
-                , {field: 'updateTime', title: '账户更新时间',}
-                , {field: 'code', title: "学号"}
-                , {field: 'phone', title: '电话'}
+                {field: 'uid', title: '账户id', width: 80, sort: true, fixed: 'left'}
+                , {field: 'cid', title: "节次id"}
+                , {field: 'purpose', title: '借用目的',}
+                , {field: 'groupName', title: '组织名称',}
+                , {field: 'date', title: '记录生成时间',}
+                , {field: 'usageTime', title: '使用时间'}
                 , {field: 'email', title: '邮箱'}
-                , {field: 'openid', title: '公共索引'}
-                , {field: 'availability', title: '可用性', sort: true}
-                , {title: '工具条', fixed: 'right', toolbar: "#toolbar"}
+                , {field: 'enabled', title: '可用性'}
             ]]
         });
         table.on("tool(section-info)", function (obj) {
@@ -64,14 +66,7 @@
                     layer.close(index)
                 });
             } else if (obj.event === "query") {
-                $("div#iframe_cache").html("<input type='hidden' name='uid' value='" + obj.data.uid + "'>");
-                layer.open({
-                    type: 2
-                    , title: false
-                    , anim: 2
-                    , content: ["./borrow-history.html", "yes"]
-                    , area: ["90%", "90%"]
-                })
+
             }
         })
     });

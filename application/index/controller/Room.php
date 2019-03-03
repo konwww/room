@@ -81,7 +81,7 @@ class Room extends Controller
 
     public function index()
     {
-        return $this->fetch("Index/index");
+        return ;
     }
 
     public function mark($cid, $week, $weekNum, $section, $date = null, $groupName = null, $purpose = null)

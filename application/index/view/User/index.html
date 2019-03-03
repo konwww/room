@@ -2,17 +2,16 @@
         "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <title>Title</title>
+    <title>用户中心</title>
     <meta name="viewport"
           content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
-
-    <link href="../css/layui.css" type="text/css" rel="stylesheet">
+    <meta content="always" name="unsafe-url">
     <link href="{$request->domain()}/static/layui/css/layui.css" type="text/css" rel="stylesheet">
     <link href="{$request->domain()}/static/layui/css/style.css" type="text/css" rel="stylesheet">
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
     <script src="{$request->domain()}/static/layui/layui.js"></script>
     <style type="text/css">
-        @media screen and (min-width: 768px){
+        @media screen and (min-width: 768px) {
 
         }
     </style>
@@ -43,7 +42,7 @@
             <div class="layui-card">
                 <div class="layui-card-header">
                     <div class="layui-breadcrumb">
-                        <a href="{:url('Index/emptyRoom',null,'.html',$request->domain())}">首页</a>
+                        <a href="{$request->domain()}">首页</a>
                         <a href="#">个人中心 </a>
                     </div>
                 </div>
@@ -64,20 +63,20 @@
                     <table class="layui-table" lay-skin="nob">
                         <tbody>
                         <tr>
-                            <th>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:</th>
+                            <th>昵&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称:</th>
                             <td>{:session("username")}</td>
-                        </tr>
-                        <tr>
-                            <th>真实姓名:</th>
-                            <td>{:session("realname")}</td>
                         </tr>
                         <tr>
                             <th>学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:</th>
                             <td>{:session("code")}</td>
                         </tr>
                         <tr>
-                            <th>所属校区:</th>
-                            <td>{:session("area")}</td>
+                            <th>邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱:</th>
+                            <td>{:session("email")}</td>
+                        </tr>
+                        <tr>
+                            <th>电&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;话:</th>
+                            <td>{:session("phone")}</td>
                         </tr>
                         </tbody>
                     </table>
@@ -165,7 +164,7 @@
             </div>
             <div class="layui-card">
                 <div class="layui-card-body">
-                    <ul class="layui-timeline">
+                    <ul class="layui-timeline" id="history">
                         <li class="layui-timeline-item">
                             <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
                             <div class="layui-timeline-content layui-text">
@@ -244,8 +243,11 @@
         var laydate = layui.laydate;
         laydate.render({
             elem: '#startDate'
-            ,position: 'static'
+            , position: 'static'
         })
+    });
+    $(function () {
+       getHistory();
     });
     layui.use(["element", "carousel"], function () {
         layui.carousel.render({
@@ -256,19 +258,60 @@
     });
 
     function refreshTimeline(data) {
-//渲染时间线
+        for (let i=0;i<data.length;i++){
+            let dom = '                        <li class="layui-timeline-item">\n' +
+                '                            <i class="layui-icon layui-timeline-axis">&#xe63f;</i>\n' +
+                '                            <div class="layui-timeline-content layui-text">\n' +
+                '                                <strong>'+data[i]['date']+'</strong>\n' +
+                '                                <table class="info">\n' +
+                '                                    <tbody>\n' +
+                '                                    <tr>\n' +
+                '                                        <th>时间编号：</th>\n' +
+                '                                        <td>'+data[i]['cid']+'</td>\n' +
+                '                                    </tr>\n' +
+                '                                    <tr>\n' +
+                '                                        <th>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址：</th>\n' +
+                '                                        <td>10教A101</td>\n' +
+                '                                    </tr>\n' +
+                '                                    <tr>\n' +
+                '                                        <th>校&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;区：</th>\n' +
+                '                                        <td>雅安校区</td>\n' +
+                '                                    </tr>\n' +
+                '                                    <tr>\n' +
+                '                                        <th>使用团体：</th>\n' +
+                '                                        <td>信息工程学院果宝特攻队</td>\n' +
+                '                                    </tr>\n' +
+                '                                    <tr>\n' +
+                '                                        <th>使用用途：</th>\n' +
+                '                                        <td>信息工程学院果宝特攻队内部会议</td>\n' +
+                '                                    </tr>\n' +
+                '                                    </tbody>\n' +
+                '                                </table>\n' +
+                '                            </div>\n' +
+                '                        </li>\n';
+            $("#history").append(dom);
+        }
+        }
+
+    //借用历史
+    function fHistory() {
+
     }
 
     function getHistory(date, endDate) {
+        let data;
+        // if (date.length!==0 || endDate!==null)
+        //     data={
+        //         "startDate": date["year"] + "-" + date["month"] + "-" + date["day"],
+        //         "endDate": endDate["year"] + "-" + endDate["month"] + "-" + endDate["day"]
+        //     };
         $.ajax({
-            type: "POST",
-            url: "",
-            data: {
-                "startDate": date["year"] + "-" + date["month"] + "-" + date["day"],
-                "endDate": endDate["year"] + "-" + endDate["month"] + "-" + endDate["day"]
-            },
+            type: "GET",
+            url: "{$request->domain()}/index.php/user/function-history",
+            data: data,
+            dataType: "json",
             success: function (data) {
-                refreshTimeline(JSON.parse(data))
+                refreshTimeline(data["replyContent"])
             },
             error: function (xhr) {
                 console.log(xhr.responseText)

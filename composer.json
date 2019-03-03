@@ -26,7 +26,8 @@
         "topthink/think-oracle": "1.*",
       "ext-json": "*",
       "ext-pdo": "*",
-      "ext-curl": "*"
+      "ext-curl": "*",
+      "ext-simplexml": "*"
     },
     "autoload": {
         "psr-4": {

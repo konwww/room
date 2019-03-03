@@ -13,10 +13,9 @@ return [
     '__pattern__' => [
         'name' => '\w+',
     ],
-    '__alias__' => [
-        'admin' => 'index/Admin',
-        'user' => "index/User"
-    ],
+//    '__alias__' => [
+//        'admin' => 'index/Admin',
+//    ],
     '[index]' => [
         'index' => [
             "index/Room/index", ["method" => "get"]
@@ -40,8 +39,13 @@ return [
             'index/Room/getRoomBaseInfo', ["method" => 'get']
         ],
         '__miss__' => [
-            'index/Room/index'
+            'index/Room/readRoomList'
         ]
+    ]
+    , '[user]' => [
+        'index' => ['index/User/index', ['method' => 'get']]
+        , 'function-history' => ['index/User/usageHistoryForBorrowFunction', ['method' => 'get']]
+        , 'read' => ['index/User/getUserList', ['method' => 'get']]
     ]
     , '[old]' => [
         'index' => [
@@ -53,14 +57,26 @@ return [
     ]
     , '[oauth]' => [
         'index' => ["index/Oauth/index"]
-        , 'login' => ["index/Oauth/login"]
+        , 'login/[:referer]' => ["index/Oauth/login"]
     ]
     , '[admin]' => [
         'config' => ["index/Config/read"]
+        , 'index' => ["index/Admin/index"]
+        , 'welcome' => ["index/Admin/welcome"]
+        , 'setting' => ["index/Admin/siteSetting"]
+        , 'user-add' => ["index/Admin/userAdd"]
+        , 'user-list' => ["index/Admin/userList"]
+        , 'section-list' => ["index/Admin/sectionList"]
+        , 'borrow-history' => ["index/Admin/borrowHistory"]
     ]
-    ,'[test]'=>[
-        'index'=>["index/Test/index"]
+    , '[section]' => [
+        'read' => 'index/Section/sectionList'
+        , 'toggle' => 'index/Section/toggle'
+        , 'log' => "index/Section/usageHistory"
     ]
-    , '__miss__' => "index/Room/index"
+    , '[test]' => [
+        'index' => ["index/Test/index"]
+    ]
+    , '__miss__' => 'index/Room/readRoomList'
 
 ];

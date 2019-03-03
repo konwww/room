@@ -2,19 +2,38 @@
 <script src="{$request->domain()}/static/layui/layui.js"></script>
 <script src="{$request->domain()}/static/layui/borrow.js"></script>
 <script>
-$(function () {
-    $.ajax(
-        {
-            url:"http://room.sicau.ml/index.php/index/section-info/699501?week=11"
-            ,type:"get"
-            ,dataType:"JSON"
-            ,success:function (data) {
-                console.log(data);
+    $(function () {
+        $.ajax(
+            {
+                url: "http://room.test.com/index.php/index/section-info/699501?week=12"
+                , type: "get"
+                , dataType: "JSON"
+                , success: function (data) {
+                    render(data["replyContent"])
+                }
             }
+        );
+
+        function render(data) {
+            for (let i = 0; i <= data.length; i++) {
+                let dom = "#sec" + (i + 1);
+                for (let z = 1; z <= 7; z++) {
+                    let appDom = "<td>null</td>";
+                    let tep = data[i];
+                    for (let k = 0; k < tep.length; k++) {
+                        let temp = parseInt(data[i][k][0]);
+                        if (temp === z) {
+                            appDom = "<td>" + data[i][k][2] + "</td>";
+                            break;
+                        }
+                    }
+                    $(dom).append(appDom);
+                }
+
+            }
+
         }
-    );
-    $('tbody td')
-})
+    })
 </script>
 <table>
     <thead>
@@ -30,8 +49,29 @@ $(function () {
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <th>1</th><td></td>
+    <tr id='sec1'>
+        <th>1</th>
+    </tr>
+    <tr id='sec2'>
+        <th>2</th>
+    </tr>
+    <tr id='sec3'>
+        <th>3</th>
+    </tr>
+    <tr id='sec4'>
+        <th>4</th>
+    </tr>
+    <tr id='sec5'>
+        <th>5</th>
+    </tr>
+    <tr id='sec6'>
+        <th>6</th>
+    </tr>
+    <tr id='sec7'>
+        <th>7</th>
+    </tr>
+    <tr id='sec8'>
+        <th>8</th>
     </tr>
     </tbody>
 </table>
